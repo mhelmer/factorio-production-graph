@@ -1,0 +1,123 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 800px;
+            height: 1000px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+        #config {
+            float: left;
+            width: 400px;
+            height: 600px;
+        }
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<div id = "config"></div>
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"id": "processing-unit", "label": "processing-unit", "shape": "dot", "size": 4, "value": 1086}, {"id": "utility-science-pack", "label": "utility-science-pack", "shape": "dot", "size": 4, "value": 1000}, {"id": "sattelite", "label": "sattelite", "shape": "dot", "size": 4, "value": 1}, {"id": "rocket-control-unit", "label": "rocket-control-unit", "shape": "dot", "size": 4, "value": 714.3}, {"id": "flying-robot-frame", "label": "flying-robot-frame", "shape": "dot", "size": 4, "value": 238}, {"id": "low-density-structure", "label": "low-density-structure", "shape": "dot", "size": 4, "value": 1529}, {"id": "space-science-pack", "label": "space-science-pack", "shape": "dot", "size": 4, "value": 1000}, {"id": "rail", "label": "rail", "shape": "dot", "size": 4, "value": 7143}, {"id": "production-science-pack", "label": "production-science-pack", "shape": "dot", "size": 4, "value": 1000}, {"id": "electric-furnace", "label": "electric-furnace", "shape": "dot", "size": 4, "value": 238}, {"id": "productivity-module", "label": "productivity-module", "shape": "dot", "size": 4, "value": 238}, {"id": "sulfur", "label": "sulfur", "shape": "dot", "size": 4, "value": 357}, {"id": "chemical-science-pack", "label": "chemical-science-pack", "shape": "dot", "size": 4, "value": 1000}, {"id": "sulfuric-acid", "label": "sulfuric-acid", "shape": "dot", "size": 4, "value": 16805}, {"id": "advanced-circuit", "label": "advanced-circuit", "shape": "dot", "size": 4, "value": 7555}, {"id": "engine-unit", "label": "engine-unit", "shape": "dot", "size": 4, "value": 121.5}, {"id": "electric-engine-unit", "label": "electric-engine-unit", "shape": "dot", "size": 4, "value": 170.1}, {"id": "piercing-rounds-magazine", "label": "piercing-rounds-magazine", "shape": "dot", "size": 4, "value": 357}, {"id": "military-science-pack", "label": "military-science-pack", "shape": "dot", "size": 4, "value": 1000}, {"id": "grenade", "label": "grenade", "shape": "dot", "size": 4, "value": 357}, {"id": "stone-brick", "label": "stone-brick", "shape": "dot", "size": 4, "value": 5952}, {"id": "iron-plate", "label": "iron-plate", "shape": "dot", "size": 4, "value": 34969}, {"id": "logistic-science-pack", "label": "logistic-science-pack", "shape": "dot", "size": 4, "value": 1000}, {"id": "automation-science-pack", "label": "automation-science-pack", "shape": "dot", "size": 4, "value": 1000}, {"id": "electronic-circuit", "label": "electronic-circuit", "shape": "dot", "size": 4, "value": 33047}, {"id": "battery", "label": "battery", "shape": "dot", "size": 4, "value": 840.1}, {"id": "copper-plate", "label": "copper-plate", "shape": "dot", "size": 4, "value": 58483}, {"id": "rocket-fuel", "label": "rocket-fuel", "shape": "dot", "size": 4, "value": 764.3}, {"id": "steel-plate", "label": "steel-plate", "shape": "dot", "size": 4, "value": 9760}, {"id": "plastic-bar", "label": "plastic-bar", "shape": "dot", "size": 4, "value": 16252}, {"id": "coal", "label": "coal", "shape": "dot", "size": 4}, {"id": "water", "label": "water", "shape": "dot", "size": 4}, {"id": "oil-processing", "label": "oil-processing", "shape": "dot", "size": 4, "value": 1}, {"id": "petroleum-gas", "label": "petroleum-gas", "shape": "dot", "size": 4, "value": 129140}, {"id": "stone", "label": "stone", "shape": "dot", "size": 4}, {"id": "lubricant", "label": "lubricant", "shape": "dot", "size": 4, "value": 1822}, {"id": "copper-ore", "label": "copper-ore", "shape": "dot", "size": 4}, {"id": "iron-ore", "label": "iron-ore", "shape": "dot", "size": 4}, {"id": "light-oil", "label": "light-oil", "shape": "dot", "size": 4, "value": 38889}, {"id": "heavy-oil", "label": "heavy-oil", "shape": "dot", "size": 4, "value": 1402}, {"id": "crude-oil", "label": "crude-oil", "shape": "dot", "size": 4}]);
+        edges = new vis.DataSet([{"arrows": "to", "from": "processing-unit", "to": "utility-science-pack", "weight": 1, "width": 476.2}, {"arrows": "to", "from": "processing-unit", "to": "sattelite", "weight": 1, "width": 100}, {"arrows": "to", "from": "processing-unit", "to": "rocket-control-unit", "weight": 1, "width": 510}, {"arrows": "to", "from": "flying-robot-frame", "to": "utility-science-pack", "weight": 1, "width": 238.1}, {"arrows": "to", "from": "low-density-structure", "to": "utility-science-pack", "weight": 1, "width": 714.3}, {"arrows": "to", "from": "low-density-structure", "to": "space-science-pack", "weight": 1, "width": 714.3}, {"arrows": "to", "from": "low-density-structure", "to": "sattelite", "weight": 1, "width": 100}, {"arrows": "to", "from": "rail", "to": "production-science-pack", "weight": 1, "width": 7143}, {"arrows": "to", "from": "electric-furnace", "to": "production-science-pack", "weight": 1, "width": 238.1}, {"arrows": "to", "from": "productivity-module", "to": "production-science-pack", "weight": 1, "width": 238.1}, {"arrows": "to", "from": "sulfur", "to": "chemical-science-pack", "weight": 1, "width": 357.1}, {"arrows": "to", "from": "sulfur", "to": "sulfuric-acid", "weight": 1, "width": 1293}, {"arrows": "to", "from": "advanced-circuit", "to": "chemical-science-pack", "weight": 1, "width": 1071}, {"arrows": "to", "from": "advanced-circuit", "to": "rocket-control-unit", "weight": 1, "width": 2551}, {"arrows": "to", "from": "advanced-circuit", "to": "processing-unit", "weight": 1, "width": 1552}, {"arrows": "to", "from": "advanced-circuit", "to": "electric-furnace", "weight": 1, "width": 1190}, {"arrows": "to", "from": "advanced-circuit", "to": "productivity-module", "weight": 1, "width": 1190}, {"arrows": "to", "from": "engine-unit", "to": "chemical-science-pack", "weight": 1, "width": 714.3}, {"arrows": "to", "from": "engine-unit", "to": "electric-engine-unit", "weight": 1, "width": 121.5}, {"arrows": "to", "from": "piercing-rounds-magazine", "to": "military-science-pack", "weight": 1, "width": 357.1}, {"arrows": "to", "from": "grenade", "to": "military-science-pack", "weight": 1, "width": 357}, {"arrows": "to", "from": "stone-brick", "to": "military-science-pack", "weight": 1, "width": 3571}, {"arrows": "to", "from": "stone-brick", "to": "electric-furnace", "weight": 1, "width": 2381}, {"arrows": "to", "from": "iron-plate", "to": "logistic-science-pack", "weight": 1, "width": 2602}, {"arrows": "to", "from": "iron-plate", "to": "automation-science-pack", "weight": 1, "width": 1020}, {"arrows": "to", "from": "iron-plate", "to": "sattelite", "weight": 1, "width": 300}, {"arrows": "to", "from": "iron-plate", "to": "grenade", "weight": 1, "width": 1786}, {"arrows": "to", "from": "iron-plate", "to": "piercing-rounds-magazine", "weight": 1, "width": 1429}, {"arrows": "to", "from": "iron-plate", "to": "rail", "weight": 1, "width": 1276}, {"arrows": "to", "from": "iron-plate", "to": "engine-unit", "weight": 1, "width": 2047}, {"arrows": "to", "from": "iron-plate", "to": "electronic-circuit", "weight": 1, "width": 23605}, {"arrows": "to", "from": "iron-plate", "to": "battery", "weight": 1, "width": 646.3}, {"arrows": "to", "from": "iron-plate", "to": "sulfuric-acid", "weight": 1, "width": 258.5}, {"arrows": "to", "from": "electronic-circuit", "to": "logistic-science-pack", "weight": 1, "width": 714.3}, {"arrows": "to", "from": "electronic-circuit", "to": "sattelite", "weight": 1, "width": 1525}, {"arrows": "to", "from": "electronic-circuit", "to": "rocket-control-unit", "weight": 1, "width": 2551}, {"arrows": "to", "from": "electronic-circuit", "to": "processing-unit", "weight": 1, "width": 15519}, {"arrows": "to", "from": "electronic-circuit", "to": "productivity-module", "weight": 1, "width": 1190}, {"arrows": "to", "from": "electronic-circuit", "to": "flying-robot-frame", "weight": 1, "width": 510.2}, {"arrows": "to", "from": "electronic-circuit", "to": "advanced-circuit", "weight": 1, "width": 10793}, {"arrows": "to", "from": "electronic-circuit", "to": "electric-engine-unit", "weight": 1, "width": 243}, {"arrows": "to", "from": "copper-plate", "to": "automation-science-pack", "weight": 1, "width": 714}, {"arrows": "to", "from": "copper-plate", "to": "sattelite", "weight": 1, "width": 500}, {"arrows": "to", "from": "copper-plate", "to": "low-density-structure", "weight": 1, "width": 21836}, {"arrows": "to", "from": "copper-plate", "to": "piercing-rounds-magazine", "weight": 1, "width": 1786}, {"arrows": "to", "from": "copper-plate", "to": "advanced-circuit", "weight": 1, "width": 7710}, {"arrows": "to", "from": "copper-plate", "to": "electronic-circuit", "weight": 1, "width": 25291}, {"arrows": "to", "from": "copper-plate", "to": "battery", "weight": 1, "width": 646.3}, {"arrows": "to", "from": "rocket-control-unit", "to": "space-science-pack", "weight": 1, "width": 714.3}, {"arrows": "to", "from": "rocket-fuel", "to": "space-science-pack", "weight": 1, "width": 714.3}, {"arrows": "to", "from": "rocket-fuel", "to": "sattelite", "weight": 1, "width": 50}, {"arrows": "to", "from": "sattelite", "to": "space-science-pack", "weight": 1, "width": 1}, {"arrows": "to", "from": "steel-plate", "to": "sattelite", "weight": 1, "width": 500}, {"arrows": "to", "from": "steel-plate", "to": "low-density-structure", "weight": 1, "width": 2184}, {"arrows": "to", "from": "steel-plate", "to": "piercing-rounds-magazine", "weight": 1, "width": 357}, {"arrows": "to", "from": "steel-plate", "to": "rail", "weight": 1, "width": 3571}, {"arrows": "to", "from": "steel-plate", "to": "electric-furnace", "weight": 1, "width": 2381}, {"arrows": "to", "from": "steel-plate", "to": "flying-robot-frame", "weight": 1, "width": 170.1}, {"arrows": "to", "from": "steel-plate", "to": "engine-unit", "weight": 1, "width": 597}, {"arrows": "to", "from": "battery", "to": "sattelite", "weight": 1, "width": 500}, {"arrows": "to", "from": "battery", "to": "flying-robot-frame", "weight": 1, "width": 340.1}, {"arrows": "to", "from": "plastic-bar", "to": "low-density-structure", "weight": 1, "width": 5459}, {"arrows": "to", "from": "plastic-bar", "to": "advanced-circuit", "weight": 1, "width": 10793}, {"arrows": "to", "from": "sulfuric-acid", "to": "processing-unit", "weight": 1, "width": 3880}, {"arrows": "to", "from": "sulfuric-acid", "to": "battery", "weight": 1, "width": 12925}, {"arrows": "to", "from": "coal", "to": "grenade", "weight": 1, "width": 3571}, {"arrows": "to", "from": "coal", "to": "plastic-bar", "weight": 1, "width": 6251}, {"arrows": "to", "from": "water", "to": "sulfur", "weight": 1, "width": 4121}, {"arrows": "to", "from": "water", "to": "sulfuric-acid", "weight": 1, "width": 25854}, {"arrows": "to", "from": "water", "to": "oil-processing", "weight": 1, "width": 138648}, {"arrows": "to", "from": "petroleum-gas", "to": "sulfur", "weight": 1, "width": 4121}, {"arrows": "to", "from": "petroleum-gas", "to": "plastic-bar", "weight": 1, "width": 125020}, {"arrows": "to", "from": "stone", "to": "rail", "weight": 1, "width": 3571}, {"arrows": "to", "from": "stone", "to": "stone-brick", "weight": 1, "width": 9921}, {"arrows": "to", "from": "electric-engine-unit", "to": "flying-robot-frame", "weight": 1, "width": 170.1}, {"arrows": "to", "from": "lubricant", "to": "electric-engine-unit", "weight": 1, "width": 1822}, {"arrows": "to", "from": "copper-ore", "to": "copper-plate", "weight": 1, "width": 48736}, {"arrows": "to", "from": "iron-ore", "to": "iron-plate", "weight": 1, "width": 29140}, {"arrows": "to", "from": "iron-ore", "to": "steel-plate", "weight": 1, "width": 33889}, {"arrows": "to", "from": "light-oil", "to": "rocket-fuel", "weight": 1, "width": 47452}, {"arrows": "to", "from": "heavy-oil", "to": "lubricant", "weight": 1, "width": 1402}, {"arrows": "to", "from": "oil-processing", "to": "heavy-oil", "weight": 1, "width": 10}, {"arrows": "to", "from": "oil-processing", "to": "light-oil", "weight": 1, "width": 10}, {"arrows": "to", "from": "oil-processing", "to": "petroleum-gas", "weight": 1, "width": 10}, {"arrows": "to", "from": "crude-oil", "to": "oil-processing", "weight": 1, "width": 11458}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": true,
+        "filter": [
+            "physics"
+        ]
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": false,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+        // if this network requires displaying the configure window,
+        // put it in its div
+        options.configure["container"] = document.getElementById("config");
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>
